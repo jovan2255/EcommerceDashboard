@@ -1,8 +1,12 @@
+import dt from 'datatables.net';
+
 import React, {Component} from 'react';
 import {Table} from 'react-bootstrap';
 import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AddProductModal} from './AddProductModal'
 import {EditProductModal} from './EditProductModal'
+const $ = require('jquery')
+$.DataTable = require('datatables.net')
 
 export class Products extends Component {
 constructor(props){
@@ -10,8 +14,15 @@ constructor(props){
     this.state={product:[], AddModalShow: false, EditModalShow:false }
 }
 
+
 componentDidMount(){
     this.refreshList();
+  
+    $(document).ready(function() {
+        $('#MyTable').DataTable();
+    } );
+
+    
 }
 
 refreshList(){
@@ -47,7 +58,7 @@ let EditModalClose =() => this.setState({editModalShow:false})
 
 return(
      <div>
-<Table className="mt-4" striped bordered hover size="small">
+<Table id="MyTable" className="mt-4" striped bordered hover size="small" ref={el => this.el = el}>
 <thead>
     <tr>
 <th>Product Id</th>
@@ -101,6 +112,7 @@ return(
     <AddProductModal show={this.state.AddModalShow} 
     onHide={AddModalClose}/>
     </ButtonToolbar>
+
     </div>
 )
 }
